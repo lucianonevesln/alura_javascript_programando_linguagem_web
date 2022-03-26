@@ -1,0 +1,35 @@
+<!--
+<input class="frase"><button class="botao">Copiar</button><span class="copia"></span>
+<script>
+//    var inputFrase = document.querySelector('.frase');
+//    var botao = document.querySelector('.botao');
+//    var copia = document.querySelector('.copia');
+//
+//    function botaoHandler() {
+//
+//        copia.textContent = inputFrase.value;
+//        inputFrase.value = '';
+//    }
+//
+//    botao.addEventListener('click', botaoHandler);
+// </script>
+
+//HTML
+<ul class="afazeres">
+    <li>Ir ao médico</li>
+    <li>Trocar a senha do Wifi</li>
+    <li>Estudar Javascript</li>
+</ul>
+<form class="adicionar-tarefa">
+    <input type="text" name="tarefa">
+    <button id="botao-adicionar">Salvar</button>
+</form>
+
+// Javascript
+var form = document.querySelector('.adicionar-tarefa');
+var botao = document.querySelector('#botao-adicionar');
+botao.addEventListener("click", function(){
+    console.log(form.tarefa.value);
+    //Código para adicionar na lista de tarefas
+});
+-->
