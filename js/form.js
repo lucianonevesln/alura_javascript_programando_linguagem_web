@@ -4,7 +4,8 @@ var botaoAdicionar = document.querySelector('#adicionar-paciente');
 // adiciona um escutador de evento e nesse quando o botao e clicado exibe a mensagem definida na funcao
 botaoAdicionar.addEventListener('click', function (Event) {
 
-    Event.preventDefault(); // funcao que previne o comportamento padrao
+    // funcao que previne o comportamento padrao
+    Event.preventDefault();
 
     // armazenando todos os valores capturados no form html
     var form = document.querySelector('#form-adiciona');
@@ -15,13 +16,33 @@ botaoAdicionar.addEventListener('click', function (Event) {
     // criando a tr do paciente
     var pacienteTr = montaTr(paciente);
 
+    // variavel que esta recebendo o retorno da validacao do paciente
+    var erros = validaPaciente(paciente);
+
+    // condicional que verifica se a variavel paciente tem tamanho superior a 0
+    if (erros.length > 0) {
+
+        // // associa uma tag escondida do html a uma variavel e depois o conteudo obtido em erro a essa tag
+        // var mensagemErro = document.querySelector('#mensagem-erro');
+        // mensagemErro.textContent = erros;
+        exibeMensagemDeErro(erros);
+
+        return;
+
+    };
+
     // estrutura para inserir um novo paciente na tabela do front-end
     var tabela = document.querySelector('#tabela-pacientes');
 
+    // insere o paciente dentro de tr
     tabela.appendChild(pacienteTr);
 
     // funcao para limpar o dados do input
     form.reset();
+
+    // para limpara as mensagens de erro eventualmente inseridas
+    var mensagemErro = document.querySelector('#mensagens-erro');
+    mensagemErro.innerHTML = '';
 
 });
 
@@ -40,6 +61,29 @@ botaoAdicionar.addEventListener('click', function (Event) {
 //
 // });
 
+// funcao que insere mensagem de erro em array
+function exibeMensagemDeErro (erros) {
+
+    // estabelecendo contato com id do html
+    var ul = document.querySelector('#mensagens-erro');
+
+    // para limpar mensagens de erro inseridas anteriormente
+    ul.innerHTML = '';
+
+    // forEach para percorrer automaticamente cada elemento do array
+    erros.forEach(function (erro) {
+
+        // variavel que recebe elemento de html criado
+        var li = document.createElement('li');
+        // o conteudo passado por parametro erro e adicionado a tag li criada acima
+        li.textContent = erro;
+        // a tag acima e adcionada a tag pai ul
+        ul.appendChild(li);
+
+    });
+
+};
+
 function obtemPacienteDoFormulario (form) {
 
     // criando objeto em JS para representar o mundo real dentro do JavaScript
@@ -54,10 +98,12 @@ function obtemPacienteDoFormulario (form) {
 
     };
 
+    // return o resultado de paciente
     return paciente;
 
 };
 
+// funcaoa que cria a tag de tabela
 function montaTr (paciente) {
 
     // criando um elemento dentro do html
@@ -95,16 +141,78 @@ function montaTr (paciente) {
     pacienteTr.appendChild(montaTd(paciente.gordura, "info-gordura"));
     pacienteTr.appendChild(montaTd(paciente.peso, "info-imc"));
 
-    return pacienteTr
+    // retorna paciente dentro de tabela tag
+    return pacienteTr;
 
 };
 
+// funcaoa que cria a tag que insere dados na tabela
 function montaTd (dado, classe) {
 
+    // criando a tag td, inserindo dado nela e adicionando classe
     var td = document.createElement('td');
     td.textContent = dado;
     td.classList.add(classe);
 
+    // retorna linha com informacoes
     return td;
+
+};
+
+// funcao que verifica se dados inseridos pelo usuario sao valido
+function validaPaciente (paciente) {
+
+    // array que recebe mensagens de erro
+    var erros = [];
+
+    // condicional para validar se o nome no formulario foi preenchido
+    if (paciente.nome.length == 0) {
+
+        // estrutura para adicionar mensagem de erro no array
+        erros.push('Por favor, inserir o nome do paciente.');
+
+    };
+
+    // condicional para validar se o peso esta em branco
+    if (paciente.peso.length == 0) {
+
+        // estrutura para adicionar mensagem de erro no array
+        erros.push('Por favor, inserir o peso do paciente.');
+
+    };
+
+    // condicional para validar se o peso esta em branco
+    if (paciente.altura.length == 0) {
+
+        // estrutura para adicionar mensagem de erro no array
+        erros.push('Por favor, inserir a altura do paciente.');
+
+    };
+
+    // condicional para validar se o valor gordura foi inserido
+    if (paciente.gordura.length == 0) {
+
+        // estrutura para adicionar mensagem de erro no array
+        erros.push('Por favor, inserir a gordura do paciente.');
+    };
+
+    // condicional que invoca funcao que valida peso
+    if (!validaPeso(paciente.peso)) {
+
+        // estrutura para adicionar mensagem de erro no array
+        erros.push('O peso é inválido!');
+
+    };
+
+    // condicional que invoca funcao que valida altura
+    if (!validaAltura(paciente.altura)) {
+
+        // estrutura para adicionar mensagem de erro no array
+        erros.push('A altura é inválida.');
+
+    };
+
+    // retorno de array
+    return erros;
 
 };

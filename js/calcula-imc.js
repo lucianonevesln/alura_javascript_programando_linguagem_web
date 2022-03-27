@@ -126,10 +126,10 @@ for (var item = 0; item < pacientes.length; item++) {
     var peso = tdPeso.textContent; // obtendo o valor de um objeto e armazenando em uma variavel
     var altura = tdAltura.textContent; // obtendo o valor de um objeto e armazenando em uma variavel
 
-    var pesoEhValido = true; // criando uma variavel para validar se informacoes estao corretas
-    var alturaEhValida = true; // criando uma variavel para validar se informacoes estao corretas
+    var pesoEhValido = validaPeso(peso); // criando uma variavel para validar se informacoes estao corretas
+    var alturaEhValida = validaAltura(altura); // criando uma variavel para validar se informacoes estao corretas
 
-    if (peso <= 0 || peso >= 1000) { // teste logico de peso
+    if (!pesoEhValido) { // teste logico de peso
 
         console.log('Peso invalido'); // saida em console de mensagem invalida
         pesoEhValido = false; // atribuicao de valor logico a uma variavel
@@ -140,7 +140,7 @@ for (var item = 0; item < pacientes.length; item++) {
 
     };
 
-    if (altura <= 0 || altura >= 3.00) { // teste logico de altura
+    if (!alturaEhValida) { // teste logico de altura
 
         console.log('Altura invalida'); // saida em console de mensagem invalida
         alturaEhValida = false; // atribuicao de valor logico a uma variavel
@@ -160,9 +160,39 @@ for (var item = 0; item < pacientes.length; item++) {
 
 };
 
+// funcao para validar se o peso do paciente e valido
+function validaPeso (peso) {
+
+    if (peso >= 0 && peso <= 1000) {
+
+        return true;
+
+    } else {
+
+        return false;
+
+    };
+
+};
+
+// funcao para validar se a altura do paciente e valida
+function validaAltura (altura) {
+
+    if (altura >= 0 && altura <= 3.00) {
+
+        return true;
+
+    } else {
+
+        return false;
+
+    };
+
+};
+
 // funcao para calcular o imc a partir dos valores armazenados em variaveis
 function calculaImc (peso, altura) {
-    
+
     var imc = 0;
 
     imc = peso / (altura*altura);
