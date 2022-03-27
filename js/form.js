@@ -13,9 +13,6 @@ botaoAdicionar.addEventListener('click', function (Event) {
     // adquirindo informacoes do form
     var paciente = obtemPacienteDoFormulario(form);
 
-    // criando a tr do paciente
-    var pacienteTr = montaTr(paciente);
-
     // variavel que esta recebendo o retorno da validacao do paciente
     var erros = validaPaciente(paciente);
 
@@ -31,11 +28,8 @@ botaoAdicionar.addEventListener('click', function (Event) {
 
     };
 
-    // estrutura para inserir um novo paciente na tabela do front-end
-    var tabela = document.querySelector('#tabela-pacientes');
-
-    // insere o paciente dentro de tr
-    tabela.appendChild(pacienteTr);
+    // invocando funcao para inserir novo paciente na tabela
+    adicionaPacienteNaTabela(paciente);
 
     // funcao para limpar o dados do input
     form.reset();
@@ -45,6 +39,18 @@ botaoAdicionar.addEventListener('click', function (Event) {
     mensagemErro.innerHTML = '';
 
 });
+
+// funcao para adicionar o paciente na tabela
+function adicionaPacienteNaTabela (paciente) {
+
+        // criando a tr do paciente
+        var pacienteTr = montaTr(paciente);
+        // estrutura para inserir um novo paciente na tabela do front-end
+        var tabela = document.querySelector('#tabela-pacientes');
+        // insere o paciente dentro de tr
+        tabela.appendChild(pacienteTr);
+
+};
 
 // titulo.addEventListener("click", mostraMensagem()); // adiciona um escutador de evento e nesse quando o botao e clicado exibe a mensagem definida na funcao
 
